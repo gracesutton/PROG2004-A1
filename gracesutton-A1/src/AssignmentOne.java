@@ -1,10 +1,13 @@
 public class AssignmentOne {
     public static void main(String[] args) throws Exception {
         
-        HealthProfessional gp1 = new HealthProfessional(1001, "Dr. Grace Sutton", "F");
+        GeneralPractitioner gp1 = new GeneralPractitioner(1001, "Dr. Grace Sutton", "F");
+        OccupationalTherapist ot1 = new OccupationalTherapist(1002, "Paige Robinson", "F");
+        
         gp1.printInfo(); 
+        ot1.printInfo();
 
-        HealthProfessional gp2 = new HealthProfessional("1", "Dr. Grace Sutton", "F");
+        // HealthProfessional gp2 = new HealthProfessional("1", "Dr. Grace Sutton", "F");
 
     }
 }
@@ -17,12 +20,21 @@ class HealthProfessional {
     private String gender;
 
     // Default constructor
+    public HealthProfessional() {
+        this.ID = 0;
+        this.name = "Unknown";
+        this.gender = "Unknown";
+    }    
+
+    // Parameterised (Second) Constructor
     public HealthProfessional(int ID, String name, String gender) {
         // initialise health professional properties
         this.ID = ID;
         this.name = name;
         this.gender = gender;
     }
+
+    // Getter and Setter Methods
 
     public int getID() {
         return ID;
@@ -47,24 +59,51 @@ class HealthProfessional {
     // public void setName
 
     public void printInfo() {
+        System.out.println("The health professional details are:");
         System.out.println("ID: " + ID);
         System.out.println("Name: " + name);
         System.out.println("Gender: " + gender);
+        
     }
 }
 
-class GeneralPractioner extends HealthProfessional {
-    public GeneralPractioner() {
-        super();
+class GeneralPractitioner extends HealthProfessional {
+
+    private String type = "GP";
+
+    // Constructor
+    public GeneralPractitioner(int ID, String name, String gender) {
+        super(ID, name, gender);
     }
 
-    public GeneralPractioner(int ID, String name, String gender) {
-        super(ID, name, gender);
+    public String getType() {
+        return getType();
+    }
+
+    public void printInfo() {
+        super.printInfo();
+        System.out.println("Type: " + type);
     }
     
 }
 
-class OccupationalTherapist {
+class OccupationalTherapist extends HealthProfessional {
+
+    private String type = "OT";
+
+    // Constructor
+    public OccupationalTherapist(int ID, String name, String gender) {
+        super(ID, name, gender);
+    }
+
+    public String getType() {
+        return getType();
+    }
+
+    public void printInfo() {
+        super.printInfo();
+        System.out.println("Type: " + type);
+    }
 
 }
 
