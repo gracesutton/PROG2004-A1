@@ -16,6 +16,7 @@ public class AssignmentOne {
         OccupationalTherapist ot2 = new OccupationalTherapist(1005, "Callum Daniel", "M");
         
         // print details of each object
+        System.out.println("\nThe health professional details are:\n");
         gp1.printInfo(); 
         gp2.printInfo();
         gp3.printInfo();
@@ -110,9 +111,9 @@ class HealthProfessional {
     // Parameterised (Second) Constructor
     public HealthProfessional(int ID, String name, String gender) {
         // initialise health professional properties
-        this.ID = ID;
-        this.name = name;
-        this.gender = gender;
+        setID(ID);
+        setName(name);
+        setGender(gender);
     }
 
     // Getter and Setter Methods
@@ -147,7 +148,7 @@ class HealthProfessional {
     }
 
     public void setGender(String gender) {
-        this.gender.toUpperCase();
+        gender = gender.toUpperCase();
         if ((gender.equals("M")) || (gender.equals("F"))) {
             this.gender = gender;
         } else {
@@ -155,14 +156,10 @@ class HealthProfessional {
         }
     }
 
-    // public void setName
-
     public void printInfo() {
-        System.out.println("\nThe health professional details are:\n");
         System.out.println("ID: " + ID);
         System.out.println("Name: " + name);
         System.out.println("Gender: " + gender);
-
     }
 }
 
