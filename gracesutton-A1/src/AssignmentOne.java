@@ -17,14 +17,14 @@ public class AssignmentOne {
         
         // print details of each object
         System.out.println("\nThe health professional details are:\n");
-        gp1.printInfo(); 
-        gp2.printInfo();
-        gp3.printInfo();
+        System.out.println(gp1);
+        System.out.println(gp2);
+        System.out.println(gp3);
 
-        ot1.printInfo();
-        ot2.printInfo();
+        System.out.println(ot1);
+        System.out.println(ot2);
 
-        System.out.println("\n------------------------------\n");
+        System.out.println("------------------------------\n");
 
         // Part 5 – Collection of appointments
 
@@ -47,68 +47,79 @@ public class AssignmentOne {
         System.out.println("------------------------------");
     }
 
-    private static ArrayList<Appointment> appointments = new ArrayList<>(); // new ArrayList to store all appointments (Appointment objects)
+    // new ArrayList to store all appointments (Appointment objects)
+    private static ArrayList<Appointment> appointments = new ArrayList<>(); 
 
-    // method to create a new booking and add it to the ArrayList
+    /**
+     * Method to create a new booking and add it to the ArrayList
+     */
     public static void createAppointment(String ptName, String ptPhone, LocalTime timeSlot, HealthProfessional selectedDr) {
-        Appointment apt1 = new Appointment(ptName, ptPhone, timeSlot, selectedDr);
-        appointments.add(apt1);
+        Appointment apt = new Appointment(ptName, ptPhone, timeSlot, selectedDr);
+        appointments.add(apt);
         System.out.println("Appointment created for " + ptName + " (ph: " + ptPhone + ") at " + timeSlot + " with " + selectedDr.getName());
     }
 
-    // method to display existing appointments in the ArrayList
+    /**
+     * Method to display existing appointments in the ArrayList
+     */
     public static void printExistingAppointments() {
         if (appointments.isEmpty()) {
             System.out.println("There are no existing appointments.");
         } else {
             System.out.println("\n** Existing Appointments **\n");
             for (Appointment appointment : appointments) {
-                appointment.printApptInfo();
+                System.out.println(appointment);
             }
         }
     }
-
-    // method to cancel a booking using a patient's phone number
+    /**
+     * method to cancel a booking using a patient's phone number
+     */
     public static void cancelBooking(String ptPhone) {
 
         System.out.println("** Request to remove booking for " + ptPhone + " **\n");
-        boolean found = false;
+        boolean found = false; // flag to check if the booking has been found
 
-        Iterator<Appointment> iter = appointments.iterator();
+        Iterator<Appointment> iter = appointments.iterator(); // creates an Iterator (iter) to loop through the appointments ArrayList.
         while (iter.hasNext()) {
 
             Appointment appointment = iter.next();
 
-            if (appointment.getPtPhone().equals(ptPhone)) {
+            if (appointment.getPtPhone().equals(ptPhone)) { // if found, remove the booking.
                 found = true;
-                appointments.remove(appointment);
+                iter.remove();
                 System.out.println("Appointment for '" + appointment.getPtName() + " ph " + ptPhone + "' has been removed.");
                 break;
             } 
         }
         
-        if (found == false) {
+        if (found == false) { // if not found, print a message.
             System.out.println("Appointment not found.\n");
         }
     }
-        
 }
 
-// Base class
+/**
+ * Base class to represent a Health Professional
+ */
 class HealthProfessional {
     // health professional properties declared as private
     private int ID;
     private String name;
     private String gender;
 
-    // Default constructor
+    /**
+     * Default Constructor
+     */   
     public HealthProfessional() {
         this.ID = 0;
         this.name = "Unknown";
         this.gender = "Unknown";
     }    
 
-    // Parameterised (Second) Constructor
+    /**
+     * Parameterised (Second) Constructor for Health Professional objects
+     */    
     public HealthProfessional(int ID, String name, String gender) {
         // initialise health professional properties
         setID(ID);
@@ -116,8 +127,9 @@ class HealthProfessional {
         setGender(gender);
     }
 
-    // Getter and Setter Methods
-
+    /**
+     * Getter and Setter Methods with validation
+     */
     public int getID() {
         return ID;
     }
@@ -131,6 +143,7 @@ class HealthProfessional {
     }
 
     public void setID(int ID) {
+        //perform input validation for the HP ID - must be 4 or more digits, greater than 1000.
         if (ID >= 1000) {
             this.ID = ID;
         } else {
@@ -139,7 +152,7 @@ class HealthProfessional {
     }
 
     public void setName(String name) {
-        //perform input validation
+        //perform input validation for the Health Professional's name - must be btwn 3-30 characters.
         if ((name.length() > 3) && (name.length() < 30)) {
             this.name = name;
         } else {
@@ -148,6 +161,7 @@ class HealthProfessional {
     }
 
     public void setGender(String gender) {
+        //perform input validation for gender - must be a string of either M for male or F for female.
         gender = gender.toUpperCase();
         if ((gender.equals("M")) || (gender.equals("F"))) {
             this.gender = gender;
@@ -156,76 +170,120 @@ class HealthProfessional {
         }
     }
 
-    public void printInfo() {
-        System.out.println("ID: " + ID);
-        System.out.println("Name: " + name);
-        System.out.println("Gender: " + gender);
+    /**
+     * Method to export the health professional details as a string
+     */
+    @Override
+    public String toString() {
+        return "ID: " + ID 
+            + "\nName: " + name 
+            + "\nGender: " + gender;
     }
 }
 
+/**
+ *  Class to represent a GP
+ */
 class GeneralPractitioner extends HealthProfessional {
 
     private String type = "GP";
 
-    // Constructor
+    /**
+     * Constructor for objects of class GP
+     */
     public GeneralPractitioner(int ID, String name, String gender) {
         super(ID, name, gender);
     }
 
+    /**
+     * getter and setter methods
+     */    
     public String getType() {
         return type;
     }
 
-    public void printInfo() {
-        super.printInfo();
-        System.out.println("Type: " + type);
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * method to export the GP details as a string
+     */
+    @Override
+    public String toString() {
+        return super.toString() + "\nType: " + type + "\n";
     }
     
 }
 
+/**
+ * Class to represent an OT
+ */
 class OccupationalTherapist extends HealthProfessional {
 
     private String type = "OT";
 
-    // Constructor
+    /**
+     * Constructor for objects of class OT
+     */
     public OccupationalTherapist(int ID, String name, String gender) {
         super(ID, name, gender);
     }
 
+    /**
+     * getter and setter methods
+     */    
     public String getType() {
         return type;
     }
 
-    public void printInfo() {
-        super.printInfo();
-        System.out.println("Type: " + type);
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * method to export the OT details as a string
+     */
+    @Override
+    public String toString() {
+        return super.toString() + "\nType: " + type + "\n";
     }
 
 }
 
+/**
+ * Class to represent an Appointment 
+ */
 class Appointment {
-
+    // Appointment properties declared as private
     private String ptName;
     private String ptPhone;
     private LocalTime timeSlot;
     private HealthProfessional selectedDr;
 
-    // Default Constructor
+    /**
+     * Default Constructor
+     */
     public Appointment() {
-        this.ptName = null;
-        this.ptPhone = null;
+        this.ptName = "Unknown";
+        this.ptPhone = "Unknown";
         this.timeSlot = null;
         this.selectedDr = null;
     }
     
-    // Parameterised Constructor
+    /**
+     * Constructor for Appointment objects
+     */
     public Appointment(String ptName, String ptPhone, LocalTime timeSlot, HealthProfessional selectedDr) {
-        this.ptName = ptName;
-        this.ptPhone = ptPhone;
-        this.timeSlot = timeSlot;
-        this.selectedDr = selectedDr;
+        setPtName(ptName);
+        setPtPhone(ptPhone);
+        setTimeSlot(timeSlot);
+        setSelectedDr(selectedDr);
     }
 
+    /**
+     * Getter and Setter Methods with validation
+     */
     public String getPtName() {
         return ptName;
     }
@@ -243,7 +301,7 @@ class Appointment {
     }
 
     public void setPtName(String ptName) {
-        //perform input validation
+        //perform input validation for ptName - must be btwn 3-30 characters
         if ((ptName.length() > 3) && (ptName.length() < 30)) {
             this.ptName = ptName;
         } else {
@@ -252,32 +310,36 @@ class Appointment {
     }
 
     public void setPtPhone(String ptPhone) {
-        if (ptPhone.length() == 10) {
+        //perform input validation for ptPhone - must be exactly 12 characters, i.e. XXXX XXXX XXXX
+        if (ptPhone.length() == 12) {
             this.ptPhone = ptPhone;
         } else {
-            System.out.println("Invalid Phone Number. Please try again.");
+            System.out.println("Invalid Phone Number. Please try again in the format: XXXX XXXX XXXX.");
         }
     }
 
-    public void setTimeSlot(String timeSlot) {
-        //perform input validation
-        if ((timeSlot.length() == 4) && (timeSlot.length() < 30)) {
+    public void setTimeSlot(LocalTime timeSlot) {
+        //perform input validation for timeSlot - must be between the hours of 8am-5pm.
+        if (timeSlot.isAfter(LocalTime.of(8, 0)) || timeSlot.isBefore(LocalTime.of(17, 0))) {
             this.timeSlot = timeSlot;
         } else {
-            System.out.println("Invalid Timeslot. Please enter a valid time in the format 00:00.");
+            System.out.println("Invalid Time: Appointment must be between 8am and 5pm.");
         }
     }
 
-
-    // Method to print all information
-    public void printApptInfo() {
-        System.out.println("Patient Name: " + ptName);
-        System.out.println("Patient Phone Number: " + ptPhone);
-        System.out.println("Time: " + timeSlot);
-        System.out.println("Doctor: " + selectedDr.getName() + "\n");
+    public void setSelectedDr(HealthProfessional selectedDr) {
+        this.selectedDr = selectedDr;
     }
-    
 
-
+    /**
+     * Method to export appt information as a string
+     */
+    @Override
+    public String toString() {
+        return "Patient Name: " + ptName
+            + "\nPatient Phone Number: " + ptPhone
+            + "\nTime: " + timeSlot
+            + "\nDoctor: " + selectedDr.getName() + "\n";
+    }
 
 }
