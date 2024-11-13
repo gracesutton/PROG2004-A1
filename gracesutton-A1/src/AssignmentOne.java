@@ -56,7 +56,7 @@ public class AssignmentOne {
     public static void createAppointment(String ptName, String ptPhone, LocalTime timeSlot, HealthProfessional selectedDr) {
         Appointment apt = new Appointment(ptName, ptPhone, timeSlot, selectedDr);
         appointments.add(apt);
-        System.out.println("Appointment created for " + ptName + " (ph: " + ptPhone + ") at " + timeSlot + " with " + selectedDr.getName());
+        System.out.println("Appointment created for " + apt.getPtName() + " (ph: " + apt.getPtPhone() + ") at " + apt.getTimeSlot() + " with " + apt.getSelectedDr());
     }
 
     /**
@@ -186,13 +186,20 @@ class HealthProfessional {
  */
 class GeneralPractitioner extends HealthProfessional {
 
-    private String type = "GP";
+    private final String type = "GP";
+
+    /**
+     * Default Constructor for GP
+     */
+    public GeneralPractitioner() {
+        super(); // Call default constructor of HealthProfessional
+    }
 
     /**
      * Constructor for objects of class GP
      */
     public GeneralPractitioner(int ID, String name, String gender) {
-        super(ID, name, gender);
+        super(ID, name, gender); // Call parameterised constructor of HealthProfessional
     }
 
     /**
@@ -200,10 +207,6 @@ class GeneralPractitioner extends HealthProfessional {
      */    
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     /**
@@ -221,13 +224,20 @@ class GeneralPractitioner extends HealthProfessional {
  */
 class OccupationalTherapist extends HealthProfessional {
 
-    private String type = "OT";
+    private final String type = "OT";
+
+    /**
+     * Default Constructor for OT
+     */
+    public OccupationalTherapist() {
+        super(); // Call default constructor of HealthProfessional
+    }
 
     /**
      * Constructor for objects of class OT
      */
     public OccupationalTherapist(int ID, String name, String gender) {
-        super(ID, name, gender);
+        super(ID, name, gender); // Call parameterised constructor of HealthProfessional
     }
 
     /**
@@ -235,10 +245,6 @@ class OccupationalTherapist extends HealthProfessional {
      */    
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     /**
@@ -267,8 +273,8 @@ class Appointment {
     public Appointment() {
         this.ptName = "Unknown";
         this.ptPhone = "Unknown";
-        this.timeSlot = null;
-        this.selectedDr = null;
+        this.timeSlot = LocalTime.of(8, 0); // default time slot at start of working day
+        this.selectedDr = new HealthProfessional(); // calls default constructor of HP class to have name as "Unknown"
     }
     
     /**
@@ -320,7 +326,7 @@ class Appointment {
 
     public void setTimeSlot(LocalTime timeSlot) {
         //perform input validation for timeSlot - must be between the hours of 8am-5pm.
-        if (timeSlot.isAfter(LocalTime.of(8, 0)) || timeSlot.isBefore(LocalTime.of(17, 0))) {
+        if (timeSlot.isAfter(LocalTime.of(8, 0)) && timeSlot.isBefore(LocalTime.of(17, 0))) {
             this.timeSlot = timeSlot;
         } else {
             System.out.println("Invalid Time: Appointment must be between 8am and 5pm.");
