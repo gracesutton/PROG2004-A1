@@ -12,7 +12,7 @@ public class AssignmentOne {
         GeneralPractitioner gp2 = new GeneralPractitioner(1002, "Dr. Crawford James", "M");
         GeneralPractitioner gp3 = new GeneralPractitioner(1003, "Dr. Patrick Ward", "M");
 
-        OccupationalTherapist ot1 = new OccupationalTherapist(100, "Paige Robinson", "A");
+        OccupationalTherapist ot1 = new OccupationalTherapist(1004, "Paige Robinson", "F");
         OccupationalTherapist ot2 = new OccupationalTherapist(1005, "Callum Daniel", "M");
         
         // print details of each object
@@ -326,10 +326,10 @@ class Appointment {
 
     public void setTimeSlot(LocalTime timeSlot) {
         //perform input validation for timeSlot - must be between the hours of 8am-5pm.
-        if (timeSlot.isAfter(LocalTime.of(8, 0)) && timeSlot.isBefore(LocalTime.of(17, 0))) {
-            this.timeSlot = timeSlot;
-        } else {
+        if (timeSlot.isBefore(LocalTime.of(8, 0)) || timeSlot.isAfter(LocalTime.of(17, 0))) {
             System.out.println("Invalid Time: Appointment must be between 8am and 5pm.");
+        } else {
+            this.timeSlot = timeSlot;
         }
     }
 
